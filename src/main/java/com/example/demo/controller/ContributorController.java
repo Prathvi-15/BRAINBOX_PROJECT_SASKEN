@@ -73,4 +73,31 @@ public class ContributorController {
         });
         return "redirect:/contributor/dashboard";
     }
+    
+    // SEARCH for Contributor
+    @GetMapping("/search")
+    public String searchContributor(
+            @RequestParam(value = "q", required = false) String q,
+            Model model,
+            Principal principal) {
+
+        User contributor = userRepo.findByUsername(principal.getName()).orElseThrow();
+        List<Article> drafts = articleRepo.findByAuthorAndApproved(contributor, false);
+        List<Article> published = articleRepo.findByAuthorAndApproved(contributor, true);
+
+        if (q != null && !q.isBlank()) {
+            String searchLower = q.toLowerCase();
+            drafts = drafts.stream()
+                    .filter(a -> a.getTitle().toLowerCase().contains(searchLower))
+                    .toList();
+            published = published.stream()
+                    .filter(a -> a.getTitle().toLowerCase().contains(searchLower))
+                    .toList();
+        }
+
+        model.addAttribute("drafts", drafts);
+        model.addAttribute("published", published);
+        model.addAttribute("q", q != null ? q : "");
+        return "contributorDashboard";
+    }
 }

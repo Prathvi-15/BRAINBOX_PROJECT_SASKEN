@@ -47,6 +47,12 @@
     
     <p>Welcome, <span class="username" th:text="${#authentication.name}">Editor</span>!</p>
 
+	<form method="get" th:action="@{/editor/search}">
+  <div class="input-group mb-3">
+    <input type="text" name="q" class="form-control" placeholder="Search by title or author" th:value="${param.q}">
+    <button class="btn btn-secondary" type="submit">Search</button>
+  </div>
+</form>
     <div class="table-responsive">
       <table class="table table-striped table-hover align-middle">
         <thead>

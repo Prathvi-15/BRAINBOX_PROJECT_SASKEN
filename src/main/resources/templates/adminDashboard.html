@@ -117,7 +117,12 @@
 </div>
 
 <h2>All Articles</h2>
-
+<form method="get" th:action="@{/admin/search}">
+  <div class="input-group mb-3">
+    <input type="text" name="q" class="form-control" placeholder="Search by title or author" th:value="${param.q}">
+    <button class="btn btn-secondary" type="submit">Search</button>
+  </div>
+</form>
 <table>
     <thead>
     <tr>

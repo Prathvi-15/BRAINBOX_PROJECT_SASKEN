@@ -47,7 +47,14 @@
     </div>
 
     <p>Welcome, <strong th:text="${#authentication.name}">Reviewer</strong>!</p>
+<!-- Search -->
 
+<form method="get" th:action="@{/reviewer/search}">
+  <div class="input-group mb-3">
+    <input type="text" name="q" class="form-control" placeholder="Search by title or author" th:value="${param.q}">
+    <button class="btn btn-secondary" type="submit">Search</button>
+  </div>
+</form>
     <h4 class="mt-5 mb-3">Pending Articles for Approval</h4>
 
     <div class="table-responsive">

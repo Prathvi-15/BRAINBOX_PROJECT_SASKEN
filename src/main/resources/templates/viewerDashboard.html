@@ -60,6 +60,13 @@
       <h2>Viewer Dashboard</h2>
       <a th:href="@{/logout}" class="btn btn-danger btn-logout">Logout</a>
     </div>
+    
+    <form method="get" th:action="@{/viewer/search}">
+  <div class="input-group mb-3">
+    <input type="text" name="q" class="form-control" placeholder="Search by title or author" th:value="${param.q}">
+    <button class="btn btn-secondary" type="submit">Search</button>
+  </div>
+</form>
 
     <!-- Articles -->
     <div th:if="${#lists.isEmpty(articles)}" class="no-articles">

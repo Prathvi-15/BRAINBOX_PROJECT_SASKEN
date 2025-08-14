@@ -64,5 +64,22 @@ public class AdminController {
     public String deleteArticle(@PathVariable Long id) {
         articleRepo.deleteById(id);
         return "redirect:/admin/dashboard";
+        
+        
+        
+    }
+    // SEARCH for Admin
+    @GetMapping("/search")
+    public String searchAdmin(
+            @RequestParam(value = "q", required = false) String q,
+            Model model) {
+
+        List<Article> list = (q != null && !q.isBlank())
+                ? articleRepo.findByTitleContainingIgnoreCaseOrAuthor_UsernameContainingIgnoreCase(q, q)
+                : articleRepo.findAll();
+
+        model.addAttribute("articles", list);
+        model.addAttribute("q", q != null ? q : "");
+        return "adminDashboard";
     }
 }

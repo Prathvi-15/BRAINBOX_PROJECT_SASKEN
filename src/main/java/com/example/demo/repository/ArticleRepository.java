@@ -13,4 +13,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     
     // ✅ This line fixes the ReviewerController error
     List<Article> findByApprovedFalse();
+    List<Article> findByTitleContainingIgnoreCaseOrAuthor_UsernameContainingIgnoreCase(String title, String username);
+   // List<Article> findByTitleContainingIgnoreCaseOrAuthorUsernameContainingIgnoreCase(String title, String username);
+    List<Article> findByAuthorUsernameContainingIgnoreCaseOrTitleContainingIgnoreCase(String author, String title);
 }

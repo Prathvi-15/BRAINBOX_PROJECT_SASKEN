@@ -48,4 +48,25 @@ public class EditorController {
         }
         return "redirect:/editor/dashboard";
     }
+    
+ // SEARCH for Editor
+    @GetMapping("/search")
+    public String searchEditor(
+            @RequestParam(value = "q", required = false) String q,
+            Model model) {
+
+        List<Article> articles = articleRepo.findAll();
+
+        if (q != null && !q.isBlank()) {
+            String searchLower = q.toLowerCase();
+            articles = articles.stream()
+                    .filter(a -> a.getTitle().toLowerCase().contains(searchLower) ||
+                                 (a.getAuthor() != null && a.getAuthor().getUsername().toLowerCase().contains(searchLower)))
+                    .toList();
+        }
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("q", q != null ? q : "");
+        return "editorDashboard";
+    }
 }

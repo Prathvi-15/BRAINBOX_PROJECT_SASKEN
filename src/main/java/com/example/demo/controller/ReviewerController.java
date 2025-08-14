@@ -36,4 +36,25 @@ public class ReviewerController {
         }
         return "redirect:/reviewer/dashboard";
     }
+    
+ // SEARCH for Reviewer
+    @GetMapping("/search")
+    public String searchReviewer(
+            @RequestParam(value = "q", required = false) String q,
+            Model model) {
+
+        List<Article> pendingArticles = articleRepo.findByApprovedFalse();
+
+        if (q != null && !q.isBlank()) {
+            String searchLower = q.toLowerCase();
+            pendingArticles = pendingArticles.stream()
+                    .filter(a -> a.getTitle().toLowerCase().contains(searchLower) ||
+                                 (a.getAuthor() != null && a.getAuthor().getUsername().toLowerCase().contains(searchLower)))
+                    .toList();
+        }
+
+        model.addAttribute("articles", pendingArticles);
+        model.addAttribute("q", q != null ? q : "");
+        return "reviewerDashboard";
+    }
 }
